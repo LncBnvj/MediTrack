@@ -1,19 +1,25 @@
 package com.meditrack.app.ui.theme
 
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.lightColorScheme
+import androidx.compose.material3.ProvideTextStyle
+import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 
-private val LightColors = lightColorScheme(
+private val ForestColors = darkColorScheme(
     primary = Primary,
-    onPrimary = Color.White,
+    onPrimary = PrimaryOn,
     primaryContainer = PrimaryLight,
     onPrimaryContainer = Primary,
     background = Background,
     onBackground = Ink,
-    surface = Color.White,
+    surface = CardSurface,
     onSurface = Ink,
+    surfaceVariant = CardSurface,
+    onSurfaceVariant = Muted,
+    surfaceContainer = CardSurface,
+    surfaceContainerHigh = CardSurface,
+    surfaceContainerHighest = CardSurface,
     error = Danger,
     outline = Outline
 )
@@ -21,8 +27,12 @@ private val LightColors = lightColorScheme(
 @Composable
 fun MediTrackTheme(content: @Composable () -> Unit) {
     MaterialTheme(
-        colorScheme = LightColors,
-        typography = AppTypography,
-        content = content
-    )
+        colorScheme = ForestColors,
+        typography = AppTypography
+    ) {
+        // Makes every Text use the Lexend font unless it sets its own.
+        ProvideTextStyle(TextStyle(fontFamily = AppFontFamily)) {
+            content()
+        }
+    }
 }

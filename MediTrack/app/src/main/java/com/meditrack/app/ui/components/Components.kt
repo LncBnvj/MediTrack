@@ -33,13 +33,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.meditrack.app.ui.theme.CardSurface
 import com.meditrack.app.ui.theme.Ink
 import com.meditrack.app.ui.theme.Muted
 import com.meditrack.app.ui.theme.Outline
 import com.meditrack.app.ui.theme.Primary
+import com.meditrack.app.ui.theme.PrimaryOn
 import com.meditrack.app.ui.theme.PrimaryLight
 
-/** White rounded card; [highlighted] draws the teal border used for the "next dose". */
+/** Rounded card; [highlighted] draws the green border used for the "next dose". */
 @Composable
 fun AppCard(
     modifier: Modifier = Modifier,
@@ -52,7 +54,7 @@ fun AppCard(
     Card(
         modifier = modifier.fillMaxWidth().then(clickable),
         shape = shape,
-        colors = CardDefaults.cardColors(containerColor = Color.White),
+        colors = CardDefaults.cardColors(containerColor = CardSurface),
         border = BorderStroke(if (highlighted) 1.5.dp else 1.dp, if (highlighted) Primary else Outline)
     ) {
         Column(Modifier.padding(14.dp), content = content)
@@ -65,7 +67,7 @@ fun Pill(text: String, background: Color, color: Color, modifier: Modifier = Mod
     Text(
         text = text,
         color = color,
-        fontSize = 11.sp,
+        fontSize = 13.sp,
         fontWeight = FontWeight.SemiBold,
         modifier = modifier
             .clip(RoundedCornerShape(50))
@@ -85,7 +87,7 @@ fun AppChip(
     trailingIcon: ImageVector? = null
 ) {
     val shape = RoundedCornerShape(50)
-    val bg = if (selected) PrimaryLight else Color.White
+    val bg = if (selected) PrimaryLight else CardSurface
     val fg = if (selected) Primary else Muted
     Row(
         modifier = modifier
@@ -133,15 +135,15 @@ fun AppButton(
         Button(
             onClick = onClick,
             enabled = enabled,
-            modifier = modifier.height(46.dp),
+            modifier = modifier.height(52.dp),
             shape = shape,
-            colors = ButtonDefaults.buttonColors(containerColor = Primary, contentColor = Color.White)
+            colors = ButtonDefaults.buttonColors(containerColor = Primary, contentColor = PrimaryOn)
         ) { Text(text, fontWeight = FontWeight.SemiBold) }
     } else {
         OutlinedButton(
             onClick = onClick,
             enabled = enabled,
-            modifier = modifier.height(46.dp),
+            modifier = modifier.height(52.dp),
             shape = shape,
             border = BorderStroke(1.dp, Outline),
             colors = ButtonDefaults.outlinedButtonColors(contentColor = contentColor)

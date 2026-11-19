@@ -2,16 +2,19 @@ package com.meditrack.app.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-// Palette from the design mockup
-val Primary = Color(0xFF0F9488)
-val PrimaryLight = Color(0xFFE6F4F1)
-val Success = Color(0xFF2EA05A)
-val SuccessLight = Color(0xFFE3F4EA)
-val Warning = Color(0xFFC97A0B)
-val WarningLight = Color(0xFFFCEFD9)
-val Danger = Color(0xFFE5484D)
-val DangerLight = Color(0xFFFCE6E6)
-val Ink = Color(0xFF16212B)
-val Muted = Color(0xFF6B7C85)
-val Background = Color(0xFFF3F5F4)
-val Outline = Color(0xFFDDE3E1)
+// "Forest Dark" palette
+val Primary = Color(0xFF7BDC9A)
+val PrimaryOn = Color(0xFF06230F)       // text/icons on top of Primary
+val PrimaryLight = Color(0xFF1B3A27)
+val Success = Color(0xFF7BDC9A)
+val SuccessLight = Color(0xFF1B3A27)
+val Warning = Color(0xFFF5C060)
+val WarningLight = Color(0xFF3A2F14)
+val Danger = Color(0xFFFF9A9A)
+val DangerLight = Color(0xFF3A2022)
+val Ink = Color(0xFFE8F3EC)
+val Muted = Color(0xFF9DB8A8)
+val Background = Color(0xFF0E1A14)
+val CardSurface = Color(0xFF16261D)     // cards, text fields, chips (was Color.White)
+val NavSurface = Color(0xFF0B140F)      // bottom navigation bar
+val Outline = Color(0xFF27402F)

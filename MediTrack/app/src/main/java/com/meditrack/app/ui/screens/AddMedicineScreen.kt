@@ -54,10 +54,12 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.meditrack.app.ui.components.AppButton
 import com.meditrack.app.ui.components.AppChip
 import com.meditrack.app.ui.theme.Danger
+import com.meditrack.app.ui.theme.CardSurface
 import com.meditrack.app.ui.theme.Ink
 import com.meditrack.app.ui.theme.Muted
 import com.meditrack.app.ui.theme.Outline
 import com.meditrack.app.ui.theme.Primary
+import com.meditrack.app.ui.theme.PrimaryOn
 import com.meditrack.app.ui.viewmodel.AddMedicineViewModel
 import com.meditrack.app.util.TimeUtils
 import java.time.LocalDate
@@ -270,8 +272,8 @@ private fun AppTextField(
         shape = RoundedCornerShape(12.dp),
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
         colors = OutlinedTextFieldDefaults.colors(
-            focusedContainerColor = Color.White,
-            unfocusedContainerColor = Color.White,
+            focusedContainerColor = CardSurface,
+            unfocusedContainerColor = CardSurface,
             unfocusedBorderColor = Outline,
             focusedBorderColor = Primary
         )

@@ -31,6 +31,7 @@ import com.meditrack.app.ui.screens.MedicinesScreen
 import com.meditrack.app.ui.screens.TodayScreen
 import com.meditrack.app.ui.theme.Background
 import com.meditrack.app.ui.theme.Muted
+import com.meditrack.app.ui.theme.NavSurface
 import com.meditrack.app.ui.theme.Primary
 import com.meditrack.app.ui.theme.PrimaryLight
 
@@ -67,7 +68,7 @@ fun MediTrackNavHost() {
         containerColor = Background,
         bottomBar = {
             if (showBottomBar) {
-                NavigationBar(containerColor = Color.White) {
+                NavigationBar(containerColor = NavSurface) {
                     bottomItems.forEach { dest ->
                         NavigationBarItem(
                             selected = currentRoute == dest.route,

@@ -46,10 +46,12 @@ import com.meditrack.app.ui.components.AppChip
 import com.meditrack.app.ui.components.IconBubble
 import com.meditrack.app.ui.components.Pill
 import com.meditrack.app.ui.components.ScreenTitle
+import com.meditrack.app.ui.theme.CardSurface
 import com.meditrack.app.ui.theme.Ink
 import com.meditrack.app.ui.theme.Muted
 import com.meditrack.app.ui.theme.Outline
 import com.meditrack.app.ui.theme.Primary
+import com.meditrack.app.ui.theme.PrimaryOn
 import com.meditrack.app.ui.theme.Warning
 import com.meditrack.app.ui.theme.WarningLight
 import com.meditrack.app.ui.viewmodel.MedicinesViewModel
@@ -90,8 +92,8 @@ fun MedicinesScreen(
                     singleLine = true,
                     shape = RoundedCornerShape(12.dp),
                     colors = OutlinedTextFieldDefaults.colors(
-                        focusedContainerColor = Color.White,
-                        unfocusedContainerColor = Color.White,
+                        focusedContainerColor = CardSurface,
+                        unfocusedContainerColor = CardSurface,
                         unfocusedBorderColor = Outline,
                         focusedBorderColor = Primary
                     )
@@ -114,7 +116,7 @@ fun MedicinesScreen(
         FloatingActionButton(
             onClick = onAdd,
             containerColor = Primary,
-            contentColor = Color.White,
+            contentColor = PrimaryOn,
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(20.dp)
