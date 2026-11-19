@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.MediTrack" parent="android:Theme.Material.NoActionBar">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowBackground">#FF0E1A14</item>
+        <item name="android:windowSplashScreenBackground">#FF0E1A14</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/splash_bear</item>
+        <item name="android:windowSplashScreenIconBackgroundColor">#FF1B3A27</item>
+    </style>
+</resources>
