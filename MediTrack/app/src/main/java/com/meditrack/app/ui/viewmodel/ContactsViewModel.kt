@@ -22,9 +22,18 @@ class ContactsViewModel(app: Application) : AndroidViewModel(app) {
     var smsOnMissed by mutableStateOf(repo.prefs.smsOnMissed)
         private set
 
-    fun setSmsOnMissed(enabled: Boolean) {
+
+    var userName by mutableStateOf(repo.prefs.userName)
+        private set
+
+    fun updateSmsOnMissed(enabled: Boolean) {
         smsOnMissed = enabled
         repo.prefs.smsOnMissed = enabled
+    }
+
+    fun updateUserName(value: String) {
+        userName = value
+        repo.prefs.userName = value.trim()
     }
 
     fun save(contact: EmergencyContact) {

@@ -93,7 +93,7 @@ fun ContactsScreen(vm: ContactsViewModel = viewModel()) {
             pendingEmergencySend = false
             if (granted) sendEmergency()
         } else {
-            vm.setSmsOnMissed(granted)
+            vm.updateSmsOnMissed(granted)
         }
     }
 
@@ -139,6 +139,23 @@ fun ContactsScreen(vm: ContactsViewModel = viewModel()) {
         }
         item {
             AppCard {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Text(
+                        "My name (shown in emergency SMS)",
+                        fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = Ink
+                    )
+                    OutlinedTextField(
+                        value = vm.userName,
+                        onValueChange = { vm.updateUserName(it) },
+                        modifier = Modifier.fillMaxWidth(),
+                        label = { Text("My name") },
+                        singleLine = true
+                    )
+                }
+            }
+        }
+        item {
+            AppCard {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
                         "Send SMS after 2 missed doses",
@@ -149,8 +166,8 @@ fun ContactsScreen(vm: ContactsViewModel = viewModel()) {
                         checked = vm.smsOnMissed,
                         onCheckedChange = { on ->
                             when {
-                                !on -> vm.setSmsOnMissed(false)
-                                SmsHelper.hasPermission(context) -> vm.setSmsOnMissed(true)
+                                !on -> vm.updateSmsOnMissed(false)
+                                SmsHelper.hasPermission(context) -> vm.updateSmsOnMissed(true)
                                 else -> smsPermissionLauncher.launch(Manifest.permission.SEND_SMS)
                             }
                         },

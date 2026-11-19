@@ -24,9 +24,7 @@ class MediTrackRepository(private val context: Context, db: AppDatabase) {
     private val scheduler = ReminderScheduler(context)
     val prefs = Prefs(context)
 
-    // ------------------------------------------------------------------
-    // Medicines
-    // ------------------------------------------------------------------
+
     fun medicines(): Flow<List<Medicine>> = medicineDao.observeAll()
 
     suspend fun getMedicine(id: Long): Medicine? = medicineDao.getById(id)
@@ -48,9 +46,7 @@ class MediTrackRepository(private val context: Context, db: AppDatabase) {
         medicineDao.delete(medicine)
     }
 
-    // ------------------------------------------------------------------
-    // Today schedule
-    // ------------------------------------------------------------------
+
     private fun minuteTicker(): Flow<Unit> = flow {
         while (true) {
             emit(Unit)
@@ -91,9 +87,7 @@ class MediTrackRepository(private val context: Context, db: AppDatabase) {
             }
         }.sortedBy { it.scheduledMillis }
 
-    // ------------------------------------------------------------------
-    // History
-    // ------------------------------------------------------------------
+
     fun history(days: Int = 7): Flow<List<DoseLog>> {
         val from = TimeUtils.startOfDay(LocalDate.now().minusDays((days - 1).toLong()))
         return logDao.observeSince(from)
@@ -108,9 +102,7 @@ class MediTrackRepository(private val context: Context, db: AppDatabase) {
         }
     }
 
-    // ------------------------------------------------------------------
-    // Dose actions
-    // ------------------------------------------------------------------
+
     private suspend fun ensureLog(m: Medicine, scheduled: Long): DoseLog {
         logDao.find(m.id, scheduled)?.let { return it }
         logDao.insertIgnore(
@@ -157,14 +149,12 @@ class MediTrackRepository(private val context: Context, db: AppDatabase) {
         scheduler.scheduleSnooze(logId, System.currentTimeMillis() + Config.SNOOZE_MS)
     }
 
-    // ------------------------------------------------------------------
-    // Alarm callbacks
-    // ------------------------------------------------------------------
+
     suspend fun onReminderFired(medicineId: Long, time: String, scheduled: Long) {
         val m = medicineDao.getById(medicineId) ?: return
-        scheduler.scheduleNext(m, time)               // schedule tomorrow's alarm
+        scheduler.scheduleNext(m, time)
         val log = ensureLog(m, scheduled)
-        if (log.status != DoseStatus.PENDING) return  // already taken/skipped early
+        if (log.status != DoseStatus.PENDING) return
         NotificationHelper.showReminder(context, log, m.notes)
         scheduler.scheduleMissedCheck(log.id, scheduled + Config.MISSED_AFTER_MS)
     }
@@ -184,6 +174,9 @@ class MediTrackRepository(private val context: Context, db: AppDatabase) {
         maybeSendMissedAlert()
     }
 
+    private fun contactLabel(contact: EmergencyContact): String =
+        "${contact.name.trim()} (${contact.phone.trim()})"
+
     /** Sends an SMS exactly once per streak, when 2 doses in a row have been missed. */
     private suspend fun maybeSendMissedAlert() {
         if (!prefs.smsOnMissed) return
@@ -191,11 +184,9 @@ class MediTrackRepository(private val context: Context, db: AppDatabase) {
         val streak = recent.takeWhile { it.status == DoseStatus.MISSED }.size
         if (streak != 2) return
         val who = prefs.userName.ifBlank { "The MediTrack user" }
-        SmsHelper.send(
-            context,
-            contactDao.getAll(),
-            "MediTrack alert: $who missed 2 scheduled medicine doses in a row. Please check on them."
-        )
+        SmsHelper.send(context, contactDao.getAll()) { contact ->
+            "MediTrack alert to ${contactLabel(contact)}: $who missed 2 scheduled medicine doses in a row. Please check on them."
+        }
     }
 
     /** After reboot / app update / exact-alarm permission change. */
@@ -209,9 +200,7 @@ class MediTrackRepository(private val context: Context, db: AppDatabase) {
         }
     }
 
-    // ------------------------------------------------------------------
-    // Emergency contacts
-    // ------------------------------------------------------------------
+
     fun contacts(): Flow<List<EmergencyContact>> = contactDao.observeAll()
 
     suspend fun saveContact(contact: EmergencyContact) {
@@ -224,10 +213,8 @@ class MediTrackRepository(private val context: Context, db: AppDatabase) {
     /** Manual "send emergency SMS now". Returns number of contacts messaged. */
     suspend fun sendEmergencySms(): Int = withContext(Dispatchers.IO) {
         val who = prefs.userName.ifBlank { "A MediTrack user" }
-        SmsHelper.send(
-            context,
-            contactDao.getAll(),
-            "MediTrack emergency: $who needs help. Please contact them as soon as possible."
-        )
+        SmsHelper.send(context, contactDao.getAll()) { contact ->
+            "MediTrack emergency SMS to ${contactLabel(contact)}: $who needs help. Please contact them as soon as possible."
+        }
     }
 }
